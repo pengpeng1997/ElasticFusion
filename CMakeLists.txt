@@ -51,9 +51,13 @@ IF(CUDA_FOUND)
                           ${Eigen_LIBRARIES}
                           ${Pangolin_LIBRARIES}
                           ${CUDA_LIBRARIES}
-                          ${SUITESPARSE_LIBRARIES}
-    		              ${CSPARSE_LIBRARY}
-    		              ${CHOLMOD_LIBRARIES}
+                          ${SUITESPARSE_LIBRARIES}			  
+    		          ${CSPARSE_LIBRARY}
+    		          ${CHOLMOD_LIBRARIES}
+			  ${SUITESPARSECONFIG_LIBRARY}
+			  blas
+			  lapack
+			  ${COLAMD_LIBRARY} 
     )
     
     
