@@ -17,6 +17,7 @@
  */
 
 #include "Parse.h"
+#include <iostream>
 
 Parse::Parse()
 {
@@ -61,11 +62,13 @@ int Parse::arg(int argc, char** argv, const char* str, int &val) const
 
 std::string Parse::shaderDir() const
 {
-    std::string currentVal = STR(SHADER_DIR);
-
-    assert(pangolin::FileExists(currentVal) && "Shader directory not found!");
-
-    return currentVal;
+  char* SHADER_DIR= getenv ("SHADER_DIR");
+  std::string currentVal = (SHADER_DIR);
+  std::cout <<"Shaders dir = "<< currentVal << std::endl;
+  
+  assert(pangolin::FileExists(currentVal) && "Shader directory not found!");
+  
+  return currentVal;
 }
 
 std::string Parse::baseDir() const
