@@ -9,6 +9,7 @@ SET(CUDA_PROPAGATE_HOST_FLAGS OFF)
 SET(appname efusion)
 
 include_directories(./Core/src)
+include_directories(./GUI/src)
 include_directories(${Pangolin_INCLUDE_DIRS})
 include_directories(${CUDA_INCLUDE_DIRS})
 include_directories(${EIGEN_INCLUDE_DIRS})
@@ -38,6 +39,7 @@ add_library(${appname}-original SHARED
             ${cuda_objs} 
             ${containers}
 )
+
 
 target_link_libraries(${appname}-original
                       ${Eigen_LIBRARIES}
@@ -79,4 +81,6 @@ target_link_libraries(ElasticFusion
                       ${OPENNI2_LIBRARY}
 )
 
+
+add_usecase_version(${appname} original "" "" "${tools_srcs}" "" "")
 
