@@ -16,6 +16,9 @@
  *
  */
 
+#ifndef MAINCONTROLLER_H_
+#define MAINCONTROLLER_H_
+
 #include <ElasticFusion.h>
 #include <Utils/Parse.h>
 
@@ -24,8 +27,6 @@
 #include "Tools/RawLogReader.h"
 #include "Tools/LiveLogReader.h"
 
-#ifndef MAINCONTROLLER_H_
-#define MAINCONTROLLER_H_
 
 class MainController
 {
