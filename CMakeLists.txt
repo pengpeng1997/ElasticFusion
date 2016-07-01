@@ -54,8 +54,8 @@ target_link_libraries(${appname}-original
 		      ${CSPARSE_LIBRARY}
 		      cholmod
 )
-
-    add_benchmark(${appname}      original "" "")
+ 
+    add_benchmark(${appname}      original "" "" "")
     add_main     (${appname}      original "" "" "")
     
   install(TARGETS ${appname}-original  DESTINATION  lib/)
