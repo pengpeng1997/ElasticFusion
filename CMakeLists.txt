@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 2.6.0)
 
 find_package(Pangolin 0.3 REQUIRED)
-find_package(CUDA REQUIRED)
+find_package(CUDA)
 find_package(SuiteSparse REQUIRED)
+
+IF(CUDA_FOUND)
 
 SET(CUDA_PROPAGATE_HOST_FLAGS OFF)
 
@@ -55,8 +57,8 @@ target_link_libraries(${appname}-original
 		      cholmod
 )
  
-    add_benchmark(${appname}      original "" "" "")
-    add_main     (${appname}      original "" "" "")
+    add_slambench_binary(${appname}  benchmark    original "" "" "")
+    add_slambench_binary(${appname}  main         original "" "" "")
     
   install(TARGETS ${appname}-original  DESTINATION  lib/)
 
@@ -92,5 +94,5 @@ target_link_libraries(ElasticFusion
 )
 
 
-
+ENDIF(CUDA_FOUND)
 
