@@ -43,8 +43,8 @@ void GroundTruthOdometry::loadTrajectory(const std::string & filename)
 
         if(file.eof())
             break;
-
-        assert(n == 8);
+        if (n != 8)
+            assert(n == 8);
 
         Eigen::Quaternionf q(qw, qx, qy, qz);
         Eigen::Vector3f t(x, y, z);
