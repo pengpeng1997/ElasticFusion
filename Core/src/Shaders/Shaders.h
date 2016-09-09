@@ -19,6 +19,7 @@
 #ifndef SHADERS_SHADERS_H_
 #define SHADERS_SHADERS_H_
 
+#include <cmath>
 #include <pangolin/gl/glsl.h>
 #include <memory>
 #include "../Utils/Parse.h"

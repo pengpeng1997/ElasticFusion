@@ -20,6 +20,7 @@
 #define ODOMETRYPROVIDER_H_
 
 #include <Eigen/Core>
+#include <Eigen/Geometry>
 #include <float.h>
 
 class OdometryProvider

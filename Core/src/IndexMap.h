@@ -19,6 +19,7 @@
 #ifndef INDEXMAP_H_
 #define INDEXMAP_H_
 
+#include <Eigen/LU>
 #include "Shaders/Shaders.h"
 #include "Shaders/Uniform.h"
 #include "Shaders/Vertex.h"

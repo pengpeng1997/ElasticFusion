@@ -18,7 +18,6 @@
 
 #ifndef GPUTEXTURE_H_
 #define GPUTEXTURE_H_
-
 #include <pangolin/pangolin.h>
 #include <driver_types.h>
 #include <cuda_gl_interop.h>

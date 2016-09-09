@@ -4,17 +4,12 @@ find_package(Pangolin 0.3 REQUIRED)
 find_package(CUDA)
 find_package(SuiteSparse REQUIRED)
 
-IF(CUDA_FOUND)
-
-SET(CUDA_PROPAGATE_HOST_FLAGS OFF)
-
 SET(appname efusion)
 
 include_directories(./Core/src)
 include_directories(./GUI/src)
 
 include_directories(${Pangolin_INCLUDE_DIRS})
-include_directories(${CUDA_INCLUDE_DIRS})
 include_directories(${EIGEN_INCLUDE_DIRS})
 include_directories(${SUITESPARSE_INCLUDE_DIRS})
 
@@ -25,13 +20,16 @@ file(GLOB shader_srcs Core/src/Shaders/*.cpp)
 file(GLOB cuda Core/src/Cuda/*.cu)
 file(GLOB containers Core/src/Cuda/containers/*.cpp)
 
+IF(CUDA_FOUND)
 
-  
+SET(CUDA_PROPAGATE_HOST_FLAGS OFF)
+
+include_directories(${CUDA_INCLUDE_DIRS})
 
 set(CUDA_ARCH_BIN "20 30 35 50 52" CACHE STRING "Specify 'real' GPU arch to build binaries for, BIN(PTX) format is supported. Example: 1.3 2.1(1.3) or 13 21(13)")
 set(CUDA_ARCH_PTX "" CACHE STRING "Specify 'virtual' PTX arch to build PTX intermediate code for. Example: 1.0 1.2 or 10 12")              
 
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  "-Xcompiler;-fPIC;")           
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  "-Xcompiler;-fPIC;-std=c++11")           
 set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} "--ftz=true;--prec-div=false;--prec-sqrt=false") 
 
 CUDA_COMPILE(cuda_objs ${cuda})
@@ -57,8 +55,8 @@ target_link_libraries(${appname}-original
 		      cholmod
 )
  
-    add_slambench_binary(${appname}  benchmark    original "" "" "")
-    add_slambench_binary(${appname}  main         original "" "" "")
+    add_slambench_binary(${appname}  benchmark    original "" "-D_GLIBCXX_USE_CXX11_ABI=1" "")
+    add_slambench_binary(${appname}  main         original "" "-D_GLIBCXX_USE_CXX11_ABI=1" "")
     
   install(TARGETS ${appname}-original  DESTINATION  lib/)
 
