@@ -8,7 +8,7 @@ Please cite this work if you make use of our system in any of your own endeavors
 * **[ElasticFusion: Dense SLAM Without A Pose Graph](http://thomaswhelan.ie/Whelan15rss.pdf)**, *T. Whelan, S. Leutenegger, R. F. Salas-Moreno, B. Glocker and A. J. Davison*, RSS '15
 
 # 1. What do I need to build it? #
-* Ubuntu 14.04 or 15.04 (Though many other linux distros will work fine)
+* Ubuntu 14.04, 15.04 or 16.04 (Though many other linux distros will work fine)
 * CMake
 * OpenGL
 * [CUDA >= 7.0](https://developer.nvidia.com/cuda-downloads)
@@ -25,14 +25,33 @@ Firstly, add [nVidia's official CUDA repository](https://developer.nvidia.com/cu
 sudo apt-get install -y cmake-qt-gui git build-essential libusb-1.0-0-dev libudev-dev openjdk-7-jdk freeglut3-dev libglew-dev cuda-7-5 libsuitesparse-dev libeigen3-dev zlib1g-dev libjpeg-dev
 ```
 
-Afterwards install [OpenNI2](https://github.com/occipital/OpenNI2) and [Pangolin](https://github.com/stevenlovegrove/Pangolin) from source. It is important to build Pangolin last so that it can find some of the libraries it has optional dependencies on. 
+Afterwards install [OpenNI2](https://github.com/occipital/OpenNI2) and [Pangolin](https://github.com/stevenlovegrove/Pangolin) from source. Note, you may need to manually tell CMake where OpenNI2 is since Occipital's fork does not have an install option. It is important to build Pangolin last so that it can find some of the libraries it has optional dependencies on. 
 
 When you have all of the dependencies installed, build the Core followed by the GUI. 
 
 # 2. Is there an easier way to build it? #
-Yes, if you run the *build.sh* script on a fresh clean install of Ubuntu 14.04 or 15.04, enter your password for sudo a few times and wait a few minutes all dependencies will get downloaded and installed and it should build everything correctly. This has not been tested on anything but fresh installs, so I would advise using it with caution if you already have some of the dependencies installed. 
+Yes, if you run the *build.sh* script on a fresh clean install of Ubuntu 14.04 or 15.04, enter your password for sudo a few times and wait a few minutes all dependencies will get downloaded and installed and it should build everything correctly. This has not been tested on anything but fresh installs, so I would advise using it with caution if you already have some of the dependencies installed. It might also work on 16.04, but not guaranteed (modify it to coerce it into the 15.04 path).
 
-# 3. How do I use it? #
+# 3. Installation issues #
+
+***`#include <Eigen/Core>` not found***
+
+```bash
+sudo ln -sf /usr/include/eigen3/Eigen /usr/include/Eigen
+sudo ln -sf /usr/include/eigen3/unsupported /usr/include/unsupported
+```
+
+***invalid use of incomplete type ‘const struct Eigen ...***
+
+Pangolin must be installed AFTER all the other libraries to make use of optional dependencies.
+
+***GLSL 3.30 is not supported. Supported versions are 1.10, 1.20, 1.30, 1.00 ES and 3.00 ES***
+
+Make sure you are running ElasticFusion on your nVidia GPU. In particular, if you have an Optimus GPU
+- If you use Prime, follow instructions [here](http://askubuntu.com/questions/661922/how-am-i-supposed-to-use-nvidia-prime)
+- If you use Bumblebee, remember to run as `optirun ./ElasticFusion`
+
+# 4. How do I use it? #
 There are three subprojects in the repo:
 
 * The *Core* is the main engine which builds into a shared library that you can link into other projects and treat like an API. 
@@ -69,7 +88,7 @@ The GUI (*ElasticFusion*) can take a bunch of parameters when launching it from 
 
 Essentially by default *./ElasticFusion* will try run off an attached ASUS sensor live. You can provide a .klg log file instead with the -l parameter. You can capture .klg format logs using either [Logger1](https://github.com/mp3guy/Logger1) or [Logger2](https://github.com/mp3guy/Logger2). 
 
-# 4. How do I just use the Core API? #
+# 5. How do I just use the Core API? #
 The libefusion.so shared library which gets built by the Core is what you want to link against.
 
 An example of this can be seen in the GUI code. Essentially all you need to do is utilise the provided Findefusion.cmake file in GUI/src and include the following in your CMakeLists.txt file:
@@ -97,7 +116,7 @@ Make an ElasticFusion object and start using it:
 
 See the source code of MainController.cpp in the GUI source to see more usage.
 
-# 5. Datasets #
+# 6. Datasets #
 
 We have provided a sample dataset which you can run easily with ElasticFusion for download [here](http://www.doc.ic.ac.uk/~sleutene/datasets/elasticfusion/dyson_lab.klg). Launch it as follows:
 
@@ -105,10 +124,10 @@ We have provided a sample dataset which you can run easily with ElasticFusion fo
 ./ElasticFusion -l dyson_lab.klg
 ```
 
-# 6. License #
+# 7. License #
 ElasticFusion is freely available for non-commercial use only.  Full terms and conditions which govern its use are detailed [here](http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/) and in the LICENSE.txt file.
 
-# 7. FAQ #
+# 8. FAQ #
 ***What are the hardware requirements?***
 
 A [very fast nVidia GPU (3.5TFLOPS+)](https://en.wikipedia.org/wiki/List_of_Nvidia_graphics_processing_units#GeForce_900_Series), and a fast CPU (something like an i7). If you want to use a non-nVidia GPU you can rewrite the tracking code or substitute it with something else, as the rest of the pipeline is actually written in the OpenGL Shading Language. 

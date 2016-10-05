@@ -67,7 +67,7 @@ std::string Parse::shaderDir() const
     std::cout <<"Shaders directory is not specified (Please use SHADER_DIR variable)."<< std::endl;
     exit(1);
   }
-  std::string currentVal = (SHADER_DIR);
+  std::string currentVal(SHADER_DIR);
   
   assert(pangolin::FileExists(currentVal) && "Shader directory not found!");
   
