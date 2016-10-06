@@ -48,16 +48,9 @@ IF(CUDA_FOUND)
     
     
     target_link_libraries(${appname}-original
-                          ${Eigen_LIBRARIES}
                           ${Pangolin_LIBRARIES}
-                          ${CUDA_LIBRARIES}
-                          ${SUITESPARSE_LIBRARIES}			  
-    		          ${CSPARSE_LIBRARY}
-    		          ${CHOLMOD_LIBRARIES}
-			  ${SUITESPARSECONFIG_LIBRARY}
-			  blas
-			  lapack
-			  ${COLAMD_LIBRARY} 
+                           ${CUDA_LIBRARIES}
+                           ${CHOLMOD_LIBRARIES}
     )
     
     
@@ -93,11 +86,7 @@ IF(OpenNI2_FOUND)
     install(TARGETS ElasticFusion  DESTINATION  bin/)
     
     target_link_libraries(ElasticFusion
-                      ${ZLIB_LIBRARY}
-                      ${Pangolin_LIBRARIES}
-                      ${CUDA_LIBRARIES}
                       ${appname}-original
-                      ${OPENNI2_LIBRARY}
     )
     
 ENDIF(OpenNI2_FOUND)
