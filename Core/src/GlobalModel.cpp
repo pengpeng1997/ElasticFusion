@@ -23,6 +23,18 @@ const int GlobalModel::MAX_VERTICES = GlobalModel::TEXTURE_DIMENSION * GlobalMod
 const int GlobalModel::NODE_TEXTURE_DIMENSION = 16384;
 const int GlobalModel::MAX_NODES = GlobalModel::NODE_TEXTURE_DIMENSION / 16; //16 floats per node
 
+static inline void checkGLError()
+{
+  static int count = 0;
+  GLenum error = glGetError();
+  if(error != GL_NO_ERROR) {
+    fprintf(stderr, "OpenGL Error %u (%d)!\n", error, count);
+    abort();
+  }
+  count += 1;
+}
+
+
 GlobalModel::GlobalModel()
  : target(0),
    renderSource(1),
@@ -42,9 +54,9 @@ GlobalModel::GlobalModel()
 {
     vbos = new std::pair<GLuint, GLuint>[2];
 
-    float * vertices = new float[bufferSize];
+    float * vertices = new float[bufferSize/sizeof(float)];
 
-    memset(&vertices[0], 0, bufferSize);
+    memset(&vertices[0], 0, bufferSize/sizeof(float));
 
     glGenTransformFeedbacks(1, &vbos[0].second);
     glGenBuffers(1, &vbos[0].first);
@@ -60,9 +72,9 @@ GlobalModel::GlobalModel()
 
     delete [] vertices;
 
-    vertices = new float[Resolution::getInstance().numPixels() * Vertex::SIZE];
+    vertices = new float[Resolution::getInstance().numPixels() * Vertex::SIZE/sizeof(float)];
 
-    memset(&vertices[0], 0, Resolution::getInstance().numPixels() * Vertex::SIZE);
+    memset(&vertices[0], 0, Resolution::getInstance().numPixels() * Vertex::SIZE/sizeof(float));
 
     glGenTransformFeedbacks(1, &newUnstableFid);
     glGenBuffers(1, &newUnstableVbo);
@@ -608,7 +620,7 @@ Eigen::Vector4f * GlobalModel::downloadMap()
 
     Eigen::Vector4f * vertices = new Eigen::Vector4f[count * 3];
 
-    memset(&vertices[0], 0, count * Vertex::SIZE);
+    memset(&vertices[0], 0, count * Vertex::SIZE/sizeof(float));
 
     GLuint downloadVbo;
 
