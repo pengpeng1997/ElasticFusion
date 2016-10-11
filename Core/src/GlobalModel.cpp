@@ -56,7 +56,7 @@ GlobalModel::GlobalModel()
 
     float * vertices = new float[bufferSize/sizeof(float)];
 
-    memset(&vertices[0], 0, bufferSize/sizeof(float));
+    memset(&vertices[0], 0, bufferSize);
 
     glGenTransformFeedbacks(1, &vbos[0].second);
     glGenBuffers(1, &vbos[0].first);
@@ -74,7 +74,7 @@ GlobalModel::GlobalModel()
 
     vertices = new float[Resolution::getInstance().numPixels() * Vertex::SIZE/sizeof(float)];
 
-    memset(&vertices[0], 0, Resolution::getInstance().numPixels() * Vertex::SIZE/sizeof(float));
+    memset(&vertices[0], 0, Resolution::getInstance().numPixels() * Vertex::SIZE);
 
     glGenTransformFeedbacks(1, &newUnstableFid);
     glGenBuffers(1, &newUnstableVbo);
@@ -620,7 +620,7 @@ Eigen::Vector4f * GlobalModel::downloadMap()
 
     Eigen::Vector4f * vertices = new Eigen::Vector4f[count * 3];
 
-    memset(&vertices[0], 0, count * Vertex::SIZE/sizeof(float));
+    memset(&vertices[0], 0, count * Vertex::SIZE);
 
     GLuint downloadVbo;
 
