@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6.0)
 
 find_package(Pangolin 0.3 REQUIRED)
-find_package(CUDA REQUIRED)
+find_package(CUDA)
 find_package(SuiteSparse REQUIRED)
 find_package(OpenNI2)
 
@@ -9,6 +9,7 @@ SET(appname efusion)
 
 include_directories(./Core/src)
 include_directories(./GUI/src)
+include_directories(./GUI/src/Tools)
 
 include_directories(${Pangolin_INCLUDE_DIRS})
 include_directories(${EIGEN_INCLUDE_DIRS})
@@ -20,6 +21,8 @@ file(GLOB utils_srcs Core/src/Utils/*.cpp)
 file(GLOB shader_srcs Core/src/Shaders/*.cpp)
 file(GLOB containers Core/src/Cuda/containers/*.cpp)
 file(GLOB cuda Core/src/Cuda/*.cu)
+file(GLOB gui_srcs       GUI/src/*.cpp)
+file(GLOB gui_tools_srcs GUI/src/Tools/*.cpp)
 
 IF(CUDA_FOUND)   
     
@@ -75,15 +78,13 @@ IF(CUDA_FOUND)
         include_directories(${CUDA_INCLUDE_DIRS})
         include_directories(${OPENNI2_INCLUDE_DIR})
         
-        file(GLOB srcs       GUI/src/*.cpp)
-        file(GLOB tools_srcs GUI/src/Tools/*.cpp)
         
         
         add_definitions(-Dlinux=1)
         
         add_executable(ElasticFusion 
-                   ${srcs}
-                   ${tools_srcs}
+                   ${gui_srcs}
+                   ${gui_tools_srcs}
         )
         install(TARGETS ElasticFusion  DESTINATION  bin/)
         
