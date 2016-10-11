@@ -63,7 +63,7 @@ IF(CUDA_FOUND)
     
     IF(OpenNI2_FOUND) 
     
-        add_slambench_binary(${appname}  main         original "" "-D_GLIBCXX_USE_CXX11_ABI=1" "")
+        add_slambench_binary(${appname}  gui         original "" "-D_GLIBCXX_USE_CXX11_ABI=1" "")
         
         install(TARGETS ${appname}-original  DESTINATION  lib/)
         
