@@ -547,7 +547,7 @@ void MainController::run()
 
         if(pangolin::Pushed(*gui->save))
         {
-            eFusion->savePly();
+            eFusion->savePly(NULL);
         }
 
         TOCK("GUI");

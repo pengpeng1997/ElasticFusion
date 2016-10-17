@@ -244,7 +244,7 @@ class ElasticFusion
         /**
          * Saves out a .ply mesh file of the current model
          */
-        void savePly();
+        void savePly(const char *);
 
         /**
          * Renders a normalised view of the input raw depth for displaying as an OpenGL texture

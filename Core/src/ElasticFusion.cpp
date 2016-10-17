@@ -99,7 +99,7 @@ ElasticFusion::~ElasticFusion()
 {
     if(iclnuim)
     {
-        savePly();
+        savePly(NULL);
     }
 
     //Output deformed pose graph
@@ -715,14 +715,16 @@ void ElasticFusion::normaliseDepth(const float & minVal, const float & maxVal)
     computePacks[ComputePack::NORM]->compute(textures[GPUTexture::DEPTH_RAW]->texture, &uniforms);
 }
 
-void ElasticFusion::savePly()
+void ElasticFusion::savePly(const char * filename_ptr)
 {
     std::string filename = saveFilename;
     filename.append(".ply");
-
+    if( filename_ptr != NULL) {
+	filename = filename_ptr;
+    }
     // Open file
     std::ofstream fs;
-    fs.open (filename.c_str ());
+    fs.open (filename);
 
     Eigen::Vector4f * mapData = globalModel.downloadMap();
 
@@ -764,7 +766,7 @@ void ElasticFusion::savePly()
     fs.close ();
 
     // Open file in binary appendable
-    std::ofstream fpout (filename.c_str (), std::ios::app | std::ios::binary);
+    std::ofstream fpout (filename, std::ios::app | std::ios::binary);
 
     for(unsigned int i = 0; i < globalModel.lastCount(); i++)
     {
