@@ -1,8 +1,7 @@
 /*
  * context_helper.h
  *
- *  Created on: 19 May 2016
- *      Author: bbodin@inf.ed.ac.uk
+ *  This code is partially imported from Pangolin 
  */
 
 #ifndef BENCHMARKS_EFUSION_INCLUDE_CONTEXT_HELPER_H_
