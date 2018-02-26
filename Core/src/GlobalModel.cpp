@@ -18,11 +18,6 @@
 
 #include "GlobalModel.h"
 
-const int GlobalModel::TEXTURE_DIMENSION = 3072;
-const int GlobalModel::MAX_VERTICES = GlobalModel::TEXTURE_DIMENSION * GlobalModel::TEXTURE_DIMENSION;
-const int GlobalModel::NODE_TEXTURE_DIMENSION = 16384;
-const int GlobalModel::MAX_NODES = GlobalModel::NODE_TEXTURE_DIMENSION / 16; //16 floats per node
-
 static inline void checkGLError()
 {
   static int count = 0;
@@ -35,10 +30,12 @@ static inline void checkGLError()
 }
 
 
-GlobalModel::GlobalModel()
- : target(0),
+GlobalModel::GlobalModel(int TEXTURE_DIMENSION, int NODE_TEXTURE_DIMENSION)
+ : TEXTURE_DIMENSION(TEXTURE_DIMENSION),
+   NODE_TEXTURE_DIMENSION(NODE_TEXTURE_DIMENSION),
+   target(0),
    renderSource(1),
-   bufferSize(MAX_VERTICES * Vertex::SIZE),
+   bufferSize(TEXTURE_DIMENSION * TEXTURE_DIMENSION * Vertex::SIZE),
    count(0),
    initProgram(loadProgramFromFile("init_unstable.vert")),
    drawProgram(loadProgramFromFile("draw_feedback.vert", "draw_feedback.frag")),
@@ -493,7 +490,7 @@ void GlobalModel::clean(const Eigen::Matrix4f & pose,
                         const float maxDepth,
                         const bool isFern)
 {
-    assert(graph.size() / 16 < MAX_NODES);
+    assert((graph.size() / 16) <  ((unsigned int)NODE_TEXTURE_DIMENSION / 16));
 
     if(graph.size() > 0)
     {

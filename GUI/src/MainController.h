@@ -63,6 +63,8 @@ class MainController
             icpCountThresh,
             start,
             end;
+        int TEXTURE_DIMENSION,
+            NODE_TEXTURE_DIMENSION ;
 
         bool fillIn,
              openLoop,

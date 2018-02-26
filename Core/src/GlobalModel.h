@@ -33,16 +33,11 @@
 class GlobalModel
 {
     public:
-        GlobalModel();
+        GlobalModel(int TEXTURE_DIMENSION, int NODE_TEXTURE_DIMENSION);
         virtual ~GlobalModel();
 
         void initialise(const FeedbackBuffer & rawFeedback,
                         const FeedbackBuffer & filteredFeedback);
-
-        static const int TEXTURE_DIMENSION;
-        static const int MAX_VERTICES;
-        static const int NODE_TEXTURE_DIMENSION;
-        static const int MAX_NODES;
 
         void renderPointCloud(pangolin::OpenGlMatrix mvp,
                               const float threshold,
@@ -88,6 +83,8 @@ class GlobalModel
         Eigen::Vector4f * downloadMap();
 
     private:
+        const int TEXTURE_DIMENSION;
+        const int NODE_TEXTURE_DIMENSION;
         //First is the vbo, second is the fid
         std::pair<GLuint, GLuint> * vbos;
         int target, renderSource;

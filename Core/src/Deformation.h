@@ -33,7 +33,7 @@
 class Deformation
 {
     public:
-        Deformation();
+        Deformation(int MAX_NODE);
         virtual ~Deformation();
 
         std::vector<GraphNode*> & getGraph();

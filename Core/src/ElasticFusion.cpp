@@ -33,6 +33,8 @@ ElasticFusion::ElasticFusion(const int timeDelta,
                              const float fernThresh,
                              const bool so3,
                              const bool frameToFrameRGB,
+                             const int TEXTURE_DIMENSION,
+                             const int NODE_TEXTURE_DIMENSION,
                              const std::string fileName)
  : frameToModel(Resolution::getInstance().width(),
                 Resolution::getInstance().height(),
@@ -46,7 +48,10 @@ ElasticFusion::ElasticFusion(const int timeDelta,
                 Intrinsics::getInstance().cy(),
                 Intrinsics::getInstance().fx(),
                 Intrinsics::getInstance().fy()),
+   globalModel(TEXTURE_DIMENSION, NODE_TEXTURE_DIMENSION),
    ferns(500, depthCut * 1000, photoThresh),
+   localDeformation(NODE_TEXTURE_DIMENSION / 16),
+   globalDeformation(NODE_TEXTURE_DIMENSION / 16),
    saveFilename(fileName),
    currPose(Eigen::Matrix4f::Identity()),
    tick(1),
@@ -97,43 +102,40 @@ ElasticFusion::ElasticFusion(const int timeDelta,
 
 ElasticFusion::~ElasticFusion()
 {
-    if(iclnuim)
-    {
-        savePly(NULL);
-    }
 
-    //Output deformed pose graph
-    std::string fname = saveFilename;
-    fname.append(".freiburg");
+    if (false) {
+        //Output deformed pose graph
+        std::string fname = saveFilename;
+        fname.append(".freiburg");
 
-    std::ofstream f;
-    f.open(fname.c_str(), std::fstream::out);
+        std::ofstream f;
+        f.open(fname.c_str(), std::fstream::out);
 
-    for(size_t i = 0; i < poseGraph.size(); i++)
-    {
-        std::stringstream strs;
-
-        if(iclnuim)
+        for(size_t i = 0; i < poseGraph.size(); i++)
         {
-            strs << std::setprecision(6) << std::fixed << (double)poseLogTimes.at(i) << " ";
+            std::stringstream strs;
+
+            if(iclnuim)
+            {
+                strs << std::setprecision(6) << std::fixed << (double)poseLogTimes.at(i) << " ";
+            }
+            else
+            {
+                strs << std::setprecision(6) << std::fixed << (double)poseLogTimes.at(i) / 1000000.0 << " ";
+            }
+
+            Eigen::Vector3f trans = poseGraph.at(i).second.topRightCorner(3, 1);
+            Eigen::Matrix3f rot = poseGraph.at(i).second.topLeftCorner(3, 3);
+
+            f << strs.str() << trans(0) << " " << trans(1) << " " << trans(2) << " ";
+
+            Eigen::Quaternionf currentCameraRotation(rot);
+
+            f << currentCameraRotation.x() << " " << currentCameraRotation.y() << " " << currentCameraRotation.z() << " " << currentCameraRotation.w() << "\n";
         }
-        else
-        {
-            strs << std::setprecision(6) << std::fixed << (double)poseLogTimes.at(i) / 1000000.0 << " ";
-        }
 
-        Eigen::Vector3f trans = poseGraph.at(i).second.topRightCorner(3, 1);
-        Eigen::Matrix3f rot = poseGraph.at(i).second.topLeftCorner(3, 3);
-
-        f << strs.str() << trans(0) << " " << trans(1) << " " << trans(2) << " ";
-
-        Eigen::Quaternionf currentCameraRotation(rot);
-
-        f << currentCameraRotation.x() << " " << currentCameraRotation.y() << " " << currentCameraRotation.z() << " " << currentCameraRotation.w() << "\n";
+        f.close();
     }
-
-    f.close();
-
     for(std::map<std::string, GPUTexture*>::iterator it = textures.begin(); it != textures.end(); ++it)
     {
         delete it->second;
@@ -715,13 +717,9 @@ void ElasticFusion::normaliseDepth(const float & minVal, const float & maxVal)
     computePacks[ComputePack::NORM]->compute(textures[GPUTexture::DEPTH_RAW]->texture, &uniforms);
 }
 
-void ElasticFusion::savePly(const char * filename_ptr)
+void ElasticFusion::savePly(const char * filename)
 {
-    std::string filename = saveFilename;
-    filename.append(".ply");
-    if( filename_ptr != NULL) {
-	filename = filename_ptr;
-    }
+
     // Open file
     std::ofstream fs;
     fs.open (filename);

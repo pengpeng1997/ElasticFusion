@@ -54,6 +54,8 @@ class ElasticFusion
                       const float fernThresh = 0.3095,
                       const bool so3 = true,
                       const bool frameToFrameRGB = false,
+                      const int TEXTURE_DIMENSION = 3072,
+                      const int NODE_TEXTURE_DIMENSION = 16384,
                       const std::string fileName = "");
 
         virtual ~ElasticFusion();

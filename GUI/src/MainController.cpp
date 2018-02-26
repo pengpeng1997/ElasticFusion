@@ -70,7 +70,8 @@ MainController::MainController(int argc, char * argv[])
     covThresh = 1e-05;
     photoThresh = 115;
     fernThresh = 0.3095f;
-
+    TEXTURE_DIMENSION = 3072;
+    NODE_TEXTURE_DIMENSION = 16384;
     timeDelta = 200;
     icpCountThresh = 35000;
     start = 1;
@@ -197,6 +198,8 @@ void MainController::launch()
                                         fernThresh,
                                         so3,
                                         frameToFrameRGB,
+                                        TEXTURE_DIMENSION,
+                                        NODE_TEXTURE_DIMENSION,
                                         logReader->getFile());
         }
         else

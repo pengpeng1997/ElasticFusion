@@ -17,13 +17,14 @@
  */
 
 #include "Deformation.h"
+#include "GlobalModel.h"
 
-Deformation::Deformation()
+Deformation::Deformation(int MAX_NODES)
  : def(4, &pointPool),
    originalPointPool(0),
    firstGraphNode(0),
    sampleProgram(loadProgramGeomFromFile("sample.vert", "sample.geom")),
-   bufferSize(1024), //max nodes basically
+   bufferSize(MAX_NODES), //max nodes basically
    count(0),
    vertices(new Eigen::Vector4f[bufferSize]),
    graphPosePoints(new std::vector<Eigen::Vector3f>),
