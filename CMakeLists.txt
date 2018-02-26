@@ -18,7 +18,6 @@ find_package(CUDA)
 find_package(OpenNI2)
 find_package(GLUT)    
 
-ADD_DEFINITIONS(-fpermissive)
 
 SET(appname efusion)
 
