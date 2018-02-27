@@ -17,7 +17,6 @@
 
 #include <timings.h>
 #include "context_helper.h"
-#include <SLAMBenchUITypes.h>
 #include <SLAMBenchAPI.h>
 
 #include <io/sensor/Sensor.h>
@@ -305,12 +304,6 @@ bool sb_update_frame (SLAMBenchLibraryHelper * slam_settings, slambench::io::SLA
      eFusion->processFrame((unsigned char*)inputRGB, inputDepth, frame);
      frame++;
      return true;
- }
-
-
- bool sb_get_pose (Eigen::Matrix4f * mat)  {
-    *mat = eFusion->getCurrPose();
-    return true;
  }
 
  
