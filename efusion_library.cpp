@@ -130,22 +130,22 @@ slambench::outputs::Output *render_frame_output;
 
  bool sb_new_slam_configuration(SLAMBenchLibraryHelper * slam_settings)  {
 
-     slam_settings->addParameter(TypedParameter<float>("c", "confidence",     "Confidence",      &confidence, &default_confidence));
-     slam_settings->addParameter(TypedParameter<float>("d", "depth",          "Depth",           &depth,      &default_depth));
-     slam_settings->addParameter(TypedParameter<float>("", "icp",            "ICP",             &icp, &default_icp));
-     slam_settings->addParameter(TypedParameter<float>("ie", "icpErrThresh",   "ICPErrThresh",    &icpErrThresh, &default_icpErrThresh));
-     slam_settings->addParameter(TypedParameter<float>("cv", "covThresh",      "CovThresh",       &covThresh, &default_covThresh));
-     slam_settings->addParameter(TypedParameter<float>("pt", "photoThresh",    "PhotoThresh",     &photoThresh, &default_photoThresh));
-     slam_settings->addParameter(TypedParameter<float>("ft", "fernThresh",     "FernThresh",      &fernThresh, &default_fernThresh));
-     slam_settings->addParameter(TypedParameter<int>  ("ic", "icpCountThresh", "ICPCountThresh",  &icpCountThresh, &default_icpCountThresh));
-     slam_settings->addParameter(TypedParameter<int>  ("t", "timeDelta",      "TimeDelta",       &timeDelta,      &default_timeDelta));
-     slam_settings->addParameter(TypedParameter<int>  ("td", "textureDim",      "textureDim",       &textureDim,      &default_textureDim));
-     slam_settings->addParameter(TypedParameter<int>  ("ntd", "nodeTextureDim",      "nodeTextureDim",       &nodeTextureDim,      &default_nodeTextureDim));
-     slam_settings->addParameter(TypedParameter<bool>("ol", "openLoop",        "OpenLoop",        &openLoop       , &default_openLoop       ));
-     slam_settings->addParameter(TypedParameter<bool>("rl", "reloc",           "Reloc",           &reloc          , &default_reloc          ));
-     slam_settings->addParameter(TypedParameter<bool>("fod", "fastOdom",        "FastOdom",        &fastOdom       , &default_fastOdom       ));
-     slam_settings->addParameter(TypedParameter<bool>("nso", "so3",             "So3",             &so3            , &default_so3            ));
-     slam_settings->addParameter(TypedParameter<bool>("ftf", "frameToFrameRGB", "FrameToFrameRGB", &frameToFrameRGB, &default_frameToFrameRGB));
+   slam_settings->addParameter(DiscretParameter<float>({0,1,3,6,7,8,10,12}, "c", "confidence",     "Confidence",      &confidence, &default_confidence));
+   slam_settings->addParameter(DiscretParameter<float>({0,1,3,6,7,8,10,12}, "d", "depth",          "Depth",           &depth,      &default_depth));
+   slam_settings->addParameter(DiscretParameter<float>({0,1,3,6,7,8,10,12}, "",  "icp",            "ICP",             &icp, &default_icp));
+   slam_settings->addParameter(DiscretParameter<float>({1e-05, 4e-05, 5e-05,10e-05, 12e-05,1e-04,1e-03}, "ie", "icpErrThresh",   "ICPErrThresh",    &icpErrThresh, &default_icpErrThresh));
+   slam_settings->addParameter(DiscretParameter<float>({1e-05, 4e-05, 5e-05,10e-05, 12e-05,1e-04,1e-03}, "cv", "covThresh",      "CovThresh",       &covThresh, &default_covThresh));
+   slam_settings->addParameter(DiscretParameter<float>({1,25,50,115,200}, "pt", "photoThresh",    "PhotoThresh",     &photoThresh, &default_photoThresh));
+   slam_settings->addParameter(DiscretParameter<float>({0, 0.3095f, 1, 2}, "ft", "fernThresh",     "FernThresh",      &fernThresh, &default_fernThresh));
+   slam_settings->addParameter(DiscretParameter<int>({1000, 15000, 30000, 35000, 45000, 100000}, "ic", "icpCountThresh", "ICPCountThresh",  &icpCountThresh, &default_icpCountThresh));
+   slam_settings->addParameter(DiscretParameter<int>({0, 50, 100, 200, 300}, "t", "timeDelta",      "TimeDelta",       &timeDelta,      &default_timeDelta));
+   slam_settings->addParameter(DiscretParameter<int>({768, 1536, 3072, 6144}, "td", "textureDim",      "textureDim",       &textureDim,      &default_textureDim));
+   slam_settings->addParameter(DiscretParameter<int>({4096, 8192, 16384, 32768}, "ntd", "nodeTextureDim",      "nodeTextureDim",       &nodeTextureDim,      &default_nodeTextureDim));
+   slam_settings->addParameter(DiscretParameter<bool>({false,true}, "ol", "openLoop",        "OpenLoop",        &openLoop       , &default_openLoop       ));
+   slam_settings->addParameter(DiscretParameter<bool>({false,true}, "rl", "reloc",           "Reloc",           &reloc          , &default_reloc          ));
+   slam_settings->addParameter(DiscretParameter<bool>({false,true}, "fod", "fastOdom",        "FastOdom",        &fastOdom       , &default_fastOdom       ));
+   slam_settings->addParameter(DiscretParameter<bool>({false,true}, "nso", "so3",             "So3",             &so3            , &default_so3            ));
+   slam_settings->addParameter(DiscretParameter<bool>({false,true}, "ftf", "frameToFrameRGB", "FrameToFrameRGB", &frameToFrameRGB, &default_frameToFrameRGB));
 	 
 	 slam_settings->addParameter(TypedParameter<std::string>("sh", "shader-dir", "Directory containing shaders", &shader_dir, &default_shader_dir));
      return true;
