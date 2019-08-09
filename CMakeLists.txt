@@ -24,7 +24,7 @@ SET(appname efusion)
 # --- common deps
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=deprecated-declarations ") # Eigen raises deprecated declarations warning.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive -Wno-error=deprecated-declarations ") # Eigen raises deprecated declarations warning.
 
 
 
