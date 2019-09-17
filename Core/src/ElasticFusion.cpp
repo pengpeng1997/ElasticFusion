@@ -273,6 +273,7 @@ void ElasticFusion::processFrame(const unsigned char * rgb,
     metriciseDepth();
 
     TOCK("Preprocess");
+    // std::cout<<"Resolution::getInstance().width(), Resolution::getInstance().height():"<<Resolution::getInstance().width()<<","<<Resolution::getInstance().height()<<std::endl;
 
     //First run
     if(tick == 1)
@@ -330,6 +331,7 @@ void ElasticFusion::processFrame(const unsigned char * rgb,
 
             if(reloc)
             {
+                // std::cout<<"reloc!"<<std::endl;
                 if(!lost)
                 {
                     Eigen::MatrixXd covariance = frameToModel.getCovariance();

@@ -196,6 +196,7 @@ slambench::outputs::Output *render_frame_output;
      inputSize = make_sb_uint2(rgb_sensor->Width, rgb_sensor->Height);
 
      Resolution::getInstance(rgb_sensor->Width, rgb_sensor->Height);
+    //  std::cout<<"rgb_sensor->Width, rgb_sensor->Height:"<<rgb_sensor->Width<<","<<rgb_sensor->Height<<std::endl;
 
     float4 camera =  make_float4(
 			rgb_sensor->Intrinsics[0],
@@ -222,9 +223,9 @@ slambench::outputs::Output *render_frame_output;
                 icpCountThresh,
                 icpErrThresh,
                 covThresh,
-                !openLoop,
+                true,//!openLoop,
                 false, // icl-nuim parameter activate a file writing process
-                reloc,
+                true,//reloc,
                 photoThresh,
                 confidence,
                 depth,
@@ -293,6 +294,7 @@ bool sb_update_frame (SLAMBenchLibraryHelper * slam_settings, slambench::io::SLA
 	
 	if(target != nullptr) {
 		memcpy(target, s->GetData(), s->GetSize());
+        // std::cout<<"s->GetSize():"<<s->GetSize()<<std::endl;
 		s->FreeData();
 	}
 	

@@ -34,7 +34,7 @@ void loadImage(GPUTexture & image, const std::string & name)
 
     pangolin::TypedImage img = pangolin::LoadImage(imageLoc);
 
-    Img<Eigen::Matrix<unsigned char, 3, 1>> imageRaw(480, 640, (Eigen::Matrix<unsigned char, 3, 1> *)img.ptr);
+    Img<Eigen::Matrix<unsigned char, 3, 1>> imageRaw(480, 848, (Eigen::Matrix<unsigned char, 3, 1> *)img.ptr);
 
     image.texture->Upload(imageRaw.data, GL_RGB, GL_UNSIGNED_BYTE);
 }
@@ -46,11 +46,11 @@ void loadDepth(GPUTexture & depth, const std::string & name)
 
     pangolin::TypedImage img = pangolin::LoadImage(depthLoc);
 
-    Img<unsigned short> depthRaw(480, 640, (unsigned short *)img.ptr);
+    Img<unsigned short> depthRaw(480, 848, (unsigned short *)img.ptr);
 
     for(unsigned int i = 0; i < 480; i++)
     {
-        for(unsigned int j = 0; j < 640; j++)
+        for(unsigned int j = 0; j < 848; j++)
         {
             depthRaw.at<unsigned short>(i, j) /= 5;
         }
@@ -73,17 +73,17 @@ void loadVertices(GPUTexture & vertices, GPUTexture & normals, const std::string
 
     pangolin::TypedImage img = pangolin::LoadImage(depthLoc);
 
-    Img<unsigned short> depthRaw(480, 640, (unsigned short *)img.ptr);
+    Img<unsigned short> depthRaw(480, 848, (unsigned short *)img.ptr);
 
-    Img<Eigen::Vector4f> verts(480, 640);
-    Img<Eigen::Vector4f> norms(480, 640);
+    Img<Eigen::Vector4f> verts(480, 848);
+    Img<Eigen::Vector4f> norms(480, 848);
 
     Eigen::Vector4f point(0, 0, 0, 1);
     Eigen::Vector4f norm(0, 0, 0, 1);
 
     for(unsigned int row = 1; row < 480 - 1; row++)
     {
-        for(unsigned int col = 1; col < 640 - 1; col++)
+        for(unsigned int col = 1; col < 848 - 1; col++)
         {
             if(depthRaw.at<unsigned short>(row, col) > 0 &&
                depthRaw.at<unsigned short>(row + 1, col) > 0 &&
@@ -160,10 +160,10 @@ int main(int argc, char * argv[])
         directory.append("/");
     }
 
-    pangolin::CreateWindowAndBind("GPUTest", 640, 480);
-    pangolin::Display("Image").SetAspect(640.0f / 480.0f);
+    pangolin::CreateWindowAndBind("GPUTest", 848, 480);
+    pangolin::Display("Image").SetAspect(848.0f / 480.0f);
 
-    GPUTexture firstImage(640, 480,
+    GPUTexture firstImage(848, 480,
                           GL_RGBA,
                           GL_RGB,
                           GL_UNSIGNED_BYTE,
@@ -171,7 +171,7 @@ int main(int argc, char * argv[])
 
     loadImage(firstImage, "1c.png");
 
-    GPUTexture secondImage(640, 480,
+    GPUTexture secondImage(848, 480,
                            GL_RGBA,
                            GL_RGB,
                            GL_UNSIGNED_BYTE,
@@ -181,7 +181,7 @@ int main(int argc, char * argv[])
 
     display(firstImage, secondImage, 0);
 
-    GPUTexture secondDepth(640, 480,
+    GPUTexture secondDepth(848, 480,
                            GL_LUMINANCE16UI_EXT,
                            GL_LUMINANCE_INTEGER_EXT,
                            GL_UNSIGNED_SHORT,
@@ -190,13 +190,13 @@ int main(int argc, char * argv[])
 
     loadDepth(secondDepth, "2d.png");
 
-    GPUTexture vertexTexture(640, 480,
+    GPUTexture vertexTexture(848, 480,
                              GL_RGBA32F,
                              GL_LUMINANCE,
                              GL_FLOAT,
                              false, true);
 
-    GPUTexture normalTexture(640, 480,
+    GPUTexture normalTexture(848, 480,
                              GL_RGBA32F,
                              GL_LUMINANCE,
                              GL_FLOAT,
@@ -212,7 +212,7 @@ int main(int argc, char * argv[])
 
     std::cout << dev << std::endl;
 
-    RGBDOdometry odom(640, 480, K(0, 2), K(1, 2), K(0, 0), K(1, 1));
+    RGBDOdometry odom(848, 480, K(0, 2), K(1, 2), K(0, 0), K(1, 1));
 
     Eigen::Matrix4f currPose = Eigen::Matrix4f::Identity();
 

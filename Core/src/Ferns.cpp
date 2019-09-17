@@ -20,7 +20,7 @@
 
 Ferns::Ferns(int n, int maxDepth, const float photoThresh)
  : num(n),
-   factor(8),
+   factor(4),
    width(Resolution::getInstance().width() / factor),
    height(Resolution::getInstance().height() / factor),
    maxDepth(maxDepth),
@@ -82,6 +82,7 @@ bool Ferns::addFrame(GPUTexture * imageTexture, GPUTexture * vertexTexture, GPUT
 {
     Img<Eigen::Matrix<unsigned char, 3, 1>> img(height, width);
     Img<Eigen::Vector4f> verts(height, width);
+    // std::cout<<"height, weight:"<<height<<","<<width<<std::endl;
     Img<Eigen::Vector4f> norms(height, width);
 
     resize.image(imageTexture, img);

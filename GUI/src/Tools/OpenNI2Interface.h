@@ -31,7 +31,7 @@
 class OpenNI2Interface
 {
     public:
-        OpenNI2Interface(int inWidth = 640, int inHeight = 480, int fps = 30);
+        OpenNI2Interface(int inWidth = 848, int inHeight = 480, int fps = 30);
         virtual ~OpenNI2Interface();
 
         const int width, height, fps;

@@ -35,7 +35,7 @@ class GUI
         GUI(bool liveCap, bool showcaseMode)
          : showcaseMode(showcaseMode)
         {
-            width = 1280;
+            width = 1696;
             height = 980;
             panel = 205;
 
@@ -52,7 +52,7 @@ class GUI
             glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
             //Internally render at 3840x2160
-            renderBuffer = new pangolin::GlRenderBuffer(3840, 2160),
+            renderBuffer = new pangolin::GlRenderBuffer(5088, 2160),
             colorTexture = new GPUTexture(renderBuffer->width, renderBuffer->height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, true);
 
             colorFrameBuffer = new pangolin::GlFramebuffer;
@@ -68,19 +68,19 @@ class GUI
             glDepthMask(GL_TRUE);
             glDepthFunc(GL_LESS);
 
-            s_cam = pangolin::OpenGlRenderState(pangolin::ProjectionMatrix(640, 480, 420, 420, 320, 240, 0.1, 1000),
+            s_cam = pangolin::OpenGlRenderState(pangolin::ProjectionMatrix(848, 480, 420, 420, 320, 240, 0.1, 1000),
                                                 pangolin::ModelViewLookAt(0, 0, -1, 0, 0, 1, pangolin::AxisNegY));
 
-            pangolin::Display("cam").SetBounds(0, 1.0f, 0, 1.0f, -640 / 480.0)
+            pangolin::Display("cam").SetBounds(0, 1.0f, 0, 1.0f, -848 / 480.0)
                                     .SetHandler(new pangolin::Handler3D(s_cam));
 
-            pangolin::Display(GPUTexture::RGB).SetAspect(640.0f / 480.0f);
+            pangolin::Display(GPUTexture::RGB).SetAspect(848.0f / 480.0f);
 
-            pangolin::Display(GPUTexture::DEPTH_NORM).SetAspect(640.0f / 480.0f);
+            pangolin::Display(GPUTexture::DEPTH_NORM).SetAspect(848.0f / 480.0f);
 
-            pangolin::Display("ModelImg").SetAspect(640.0f / 480.0f);
+            pangolin::Display("ModelImg").SetAspect(848.0f / 480.0f);
 
-            pangolin::Display("Model").SetAspect(640.0f / 480.0f);
+            pangolin::Display("Model").SetAspect(848.0f / 480.0f);
 
             std::vector<std::string> labels;
             labels.push_back(std::string("residual"));
